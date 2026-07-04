@@ -33,7 +33,7 @@ function App() {
         <div className="font-headline-md text-headline-md font-extrabold text-primary flex items-center">
           <div className="flex items-center gap-4">
             <img 
-              src="{logoImg}" 
+              src={logoImg}
               alt="ML Studio Logo" 
               className="h-[84px] md:h-[96px] w-auto object-contain" 
             />
