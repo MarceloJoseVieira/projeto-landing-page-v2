@@ -83,7 +83,7 @@ function App() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-lg gap-4">
             <div>
               <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Categorias em Destaque</h2>
-              <p className="text-on-surface-variant text-base md:font-body-md mt-2">Escolha o suporte perfeito para sua lembrança</p>
+              <p className="text-on-surface-variant text-base md:font-body-md mt-2">Escolha o suporte perfeito para sua lembrança!</p>
             </div>
           </div>
 
