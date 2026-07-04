@@ -1,30 +1,89 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import logoImg from './assets/logo1.png'
+import imgGaleria1 from './assets/img-galeria-1.jpeg'
+import imgGaleria2 from './assets/img-galeria-2.jpeg'
+import imgGaleria3 from './assets/img-galeria-3.jpeg'
+import imgGaleria4 from './assets/img-galeria-4.jpeg'
+import imgGaleria5 from './assets/img-galeria-5.jpeg'
+import imgGaleria6 from './assets/img-galeria-6.jpeg'
+import imgGaleria7 from './assets/img-galeria-7.jpeg'
+import imgGaleria8 from './assets/img-galeria-8.jpeg'
+import imgGaleria9 from './assets/img-galeria-9.jpeg'
+import imgGaleria10 from './assets/img-galeria-10.jpeg'
+
 
 function App() {
-  useEffect(() => {
+
+    // 1. Referências e Estados para o Carrossel
+    const carouselRef = useRef(null)
+    const [activeIndex, setActiveIndex] = useState(0)
+    const [isPaused, setIsPaused] = useState(false)
+    const itemsCount = 6
+
     // Intersection Observer for scroll animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100', 'translate-y-0')
-          entry.target.classList.remove('opacity-0', 'translate-y-4')
-        }
-      })
-    }, { threshold: 0.1 })
+    useEffect (() => { 
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0')
+            entry.target.classList.remove('opacity-0', 'translate-y-4')
+          }
+        })
+      }, { threshold: 0.1 })
 
-    const targets = document.querySelectorAll('.scroll-reveal')
-    targets.forEach(target => {
-      target.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4')
-      observer.observe(target)
-    })
-
-    return () => {
+      const targets = document.querySelectorAll('.scroll-reveal')
       targets.forEach(target => {
-        observer.unobserve(target)
+        target.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4')
+        observer.observe(target)
       })
+
+      return () => {
+        targets.forEach(target => {
+          observer.unobserve(target)
+        })
+      }
+    }, [])
+
+  // 3. Funções do Carrossel
+  const scrollToIndex = (index) => {
+    let newIndex = index
+    if (newIndex < 0) newIndex = itemsCount - 1
+    if (newIndex >= itemsCount) newIndex = 0
+    
+    if (carouselRef.current && carouselRef.current.children.length > 0) {
+      const container = carouselRef.current
+      const item = container.children[newIndex]
+      if (item) {
+        container.scrollTo({
+          left: item.offsetLeft - (window.innerWidth >= 768 ? 40 : 16),
+          behavior: 'smooth'
+        })
+      }
     }
-  }, [])
+    setActiveIndex(newIndex)
+  }
+
+  // Sincroniza a bolinha ativa quando arrasta com o dedo
+  const handleScroll = () => {
+    if (!carouselRef.current || !carouselRef.current.children[0]) return
+    const container = carouselRef.current
+    const itemWidth = container.children[0].offsetWidth + (window.innerWidth >= 768 ? 24 : 16)
+    const newIndex = Math.round(container.scrollLeft / itemWidth)
+    
+    if (newIndex !== activeIndex && newIndex >= 0 && newIndex < itemsCount) {
+      setActiveIndex(newIndex)
+    }
+  }
+
+  // Autoplay do Carrossel
+  useEffect(() => {
+    if (isPaused) return
+    const interval = setInterval(() => {
+      scrollToIndex(activeIndex + 1)
+    }, 4000)
+    
+    return () => clearInterval(interval)
+  }, [activeIndex, isPaused])
 
   return (
     <div className="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col w-full">
@@ -69,7 +128,7 @@ function App() {
                 <img 
                   className="w-full h-[300px] md:h-[500px] object-cover" 
                   alt="Assortment of personalized gift items" 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP8vqTdscbh0WI83x9vx0ohLkr4zo_O7-FStNrvpfB14a4ziTxxcRZYP0gclO3xARykbZgHbQq2dEmgc2JXQqhCB09T5RZjsMWSXLXgAf1U6BfRUcgegIlEOESmml8UEmBgshL1BHR72aK8ihCdHKfR0We24_rAMF0mKZpVcF3rZsZsUN_cLgq9yhHaCOrctr7IQZ8ZYw_In_JtYheImURPmNOEaiL22De0tYIDoWk31Q2Fksabtww7L8T4Y9e7G8ci5SyDORuKaFv" 
+                  src={imgGaleria1} 
                 />
               </div>
               {/* Decor elements */}
@@ -84,7 +143,7 @@ function App() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-lg gap-4">
             <div>
               <h2 className="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Categorias em Destaque</h2>
-              <p className="text-on-surface-variant text-base md:font-body-md mt-2">Escolha o suporte perfeito para sua lembrança!</p>
+              <p className="text-on-surface-variant text-base md:font-body-md mt-2">Escolha o produto perfeito para sua lembrança!</p>
             </div>
           </div>
 
@@ -99,7 +158,7 @@ function App() {
                 />
               </div>
               <div className="p-6 md:p-md text-center">
-                <h3 className="font-headline-md text-headline-md text-on-surface">Keychains</h3>
+                <h3 className="font-headline-md text-headline-md text-on-surface">Chaveiros</h3>
                 <p className="text-on-surface-variant text-base md:font-body-md">Sempre com você</p>
               </div>
             </div>
@@ -110,7 +169,7 @@ function App() {
                 <img 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
                   alt="Custom button pins" 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyEdOBTo3zQWCQa2wwQSDMp4gVuXouZf9offycanOjYjaaq_6KIhouRZpidaX_gnTmP0yiOVT6vbIQlqxtCDWWRl6LTiFd5jGYe9-zHNSRrs7orGId7oxm5B8joD4KExWr3a5QKW77QHHXmV_k-xnpMvkhJhsokEI8MuNKnS0lpEMUcvDraI6-LeRTfxiYABUXHGIZbRQf2NrA3mw97zQ3P1TGQUdRZvXu7OJgwD23QCLEU8-YoVha4o00YQaOKE3tPyJyXPbKgSAh" 
+                  src={imgGaleria3} 
                 />
               </div>
               <div className="p-6 md:p-md text-center">
@@ -125,12 +184,12 @@ function App() {
                 <img 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
                   alt="Personalized fridge magnets" 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOSiWD1FX-89YBXLGrV540qxtyAY1_nvR2HNYvjIv-D6So1Impm4DAI3USdaUSCNw3RdohksrO1JD0Ah1-LArzZS1mS92dPGNh4h1dEjml76SeKD7YO3Lc30UYVeof2GrJ7OfL-ZntWqJf60BcjNBLzbUEB2iyISzkvCfc3PodvfJavhhvgPdMD1-UrIE2w3MGkQPvqmbOLrJUakuXluReQYWA9HxeTVDNVaXEIzZEV_hMro9q9yj4pMo1cEwn_ANl7jsLHKEB67kO" 
+                  src={imgGaleria2}
                 />
               </div>
               <div className="p-6 md:p-md text-center">
-                <h3 className="font-headline-md text-headline-md text-on-surface">Fridge Magnets</h3>
-                <p className="text-on-surface-variant text-base md:font-body-md">Sua galeria em casa</p>
+                <h3 className="font-headline-md text-headline-md text-on-surface">Lembrancinhas</h3>
+                <p className="text-on-surface-variant text-base md:font-body-md">Para um momento especial</p>
               </div>
             </div>
 
@@ -140,11 +199,11 @@ function App() {
                 <img 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
                   alt="Custom invitations" 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoGNMHwUqe4loEMRGgK5SF6cB_OSfjhTistl6b08_Rt8NXKFFJ29EKSZ01YeNtyvVUuYqCp0-Crm_w05mqF5QPooKMXJLu_Puc-K_iYQHCS5BDyLaOeeyPqtdmMYKr00Qc05VDLQ9aU5KyxnnM6rXorqQkYoMPaOaEYgSSHJ51rekw1AT5Kh2LrCm-LMMdovpdnSQt0mE3dNQKR5oRCyIRuQtA2EIrNr5jSKsdrjnafy-itg6VY0tyiAc4xLJsPATYiCGgDpXVl_tE" 
+                  src={imgGaleria4} 
                 />
               </div>
               <div className="p-6 md:p-md text-center">
-                <h3 className="font-headline-md text-headline-md text-on-surface">Invitations</h3>
+                <h3 className="font-headline-md text-headline-md text-on-surface">Convites</h3>
                 <p className="text-on-surface-variant text-base md:font-body-md">Momentos únicos</p>
               </div>
             </div>
@@ -152,61 +211,107 @@ function App() {
         </section>
 
         {/* Galeria de Inspirações */}
-        <section className="bg-surface-container-low py-8 md:py-xl">
-          <div className="max-w-[1280px] mx-auto px-4 md:px-margin-desktop">
-            <div className="text-center mb-8 md:mb-lg">
-              <h2 className="scroll-reveal font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Galeria de Inspirações</h2>
-              <p className="text-on-surface-variant text-base md:font-body-md max-w-2xl mx-auto mt-2">
+        <section class="bg-surface-container-low py-8 md:py-xl overflow-hidden">
+          <div class="max-w-[1280px] mx-auto px-4 md:px-margin-desktop">
+    
+            <div class="text-center mb-8 md:mb-lg">
+              <h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">
+                Galeria de Inspirações
+              </h2>
+              <p class="text-on-surface-variant text-base md:font-body-md max-w-2xl mx-auto mt-2">
                 Veja como nossos clientes estão eternizando seus melhores momentos.
               </p>
             </div>
-            
-            <div className="flex flex-col gap-4 md:grid md:grid-cols-5 md:gap-sm md:h-[600px]">
-              {/* Main Large Image */}
-              <div className="w-full md:col-span-2 md:row-span-2 rounded-2xl overflow-hidden h-[300px] md:h-full">
-                <img 
-                  className="w-full h-full object-cover" 
-                  alt="Customer holding pet keychain" 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzloak764BH0L8QdXYqTFEWzOa54bO_tnObDBkdD55EFqPO2xDhcF9luU9V4pdKfCkPZorOIH4gUxNPXA2En-d3btosS5IfT2KS85tPS-DXCb25bSUsmTS43rEUFgOaR8YUUNJfaQquNvsrP5R2ooX-paF4hU9vVqVxsPZzMQaeEx9RRSLxFeVvZfNCuN1kYAtbXHU2aJZ9nllYSO9ahfN4X1GS7F4CreXsvHfvcAAVvKvDByj_-gbcOgynZM9TZlpXM6aOWzOG8hN" 
-                />
-              </div>
-              
-              {/* Secondary Images */}
-              <div className="grid grid-cols-2 gap-4 md:contents">
-                <div className="rounded-2xl overflow-hidden h-[150px] md:h-full">
-                  <img 
-                    className="w-full h-full object-cover" 
-                    alt="Fridge magnets detail" 
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkKAxRQIcPJwO651vF1ThzD3-IPGA1oeokUXV2RjUVvwhzxLjk_AYyntIcSZVl5R6wl-Mlc8ck1eRWuHFSBbI-s_-Me14KQ8OgN7MyNE-hPD6uzQRNSEZBePcQcFVOs1AFVdkQCpF2NTa8IsyxyxKN5zWViiYxtGmtSDHLe02VERZq2lK3D8heXB9vu0q2TsinQlzZY-OjUZVx2T50xXWDtV3tjj-dNRBhQft-eVqqtqXtZwIVfhoqz-5e8uxNxrMJ2nPw-O0vYE6Q" 
-                  />
+    
+            <div class="relative group" id="gallery-carousel">
+    
+              {/* Botões de Navegação com Eventos React */}
+              <button 
+                onClick={() => scrollToIndex(activeIndex - 1)}
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-primary p-2 rounded-full shadow-lg transition-all opacity-0 group-hover:opacity-100 hidden md:flex items-center justify-center"
+              >
+                <span className="material-symbols-outlined">chevron_left</span>
+              </button>
+              <button 
+                onClick={() => scrollToIndex(activeIndex + 1)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-primary p-2 rounded-full shadow-lg transition-all opacity-0 group-hover:opacity-100 hidden md:flex items-center justify-center"
+              >
+                <span className="material-symbols-outlined">chevron_right</span>
+              </button>
+    
+              {/* Container com Referência e Eventos React */}
+              <div 
+                ref={carouselRef}
+                onScroll={handleScroll}
+                onMouseEnter={() => setIsPaused(true)}
+                onTouchStart={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+                onTouchEnd={() => setIsPaused(false)}
+                className="carousel-container flex gap-4 md:gap-gutter overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] py-4 -mx-4 px-4 md:mx-0 md:px-0"
+              >
+                <div className="carousel-item flex-shrink-0 w-[80vw] md:w-[400px] h-[300px] md:h-[450px] relative rounded-2xl overflow-hidden group/item">
+                  <img className="w-full h-full object-cover transition-transform duration-700 group-hover/item:scale-110" alt="Customer holding pet keychain" src={imgGaleria5} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <span className="text-white font-label-md">Topo de bolo</span>
+                  </div>
                 </div>
-                <div className="rounded-2xl overflow-hidden h-[150px] md:h-full">
-                  <img 
-                    className="w-full h-full object-cover" 
-                    alt="Buttons on backpack" 
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqPQSIxsCP0_jTVyP96zKtMv8wR5wqgN3I9Sbga5ooWQ3CmzHPPMCTqpPfVDohrI1A7DBetGQVUjwdoEYIlhJfd5QWFnhikOHbLZTl93bK2On-tcSTTV4ULHVowT2T7FhnoMDtmJZgPZUqskKxbC52vV4yYT9eHk-5TNKJAveXLW_j5Azp5p1H7QdvTyPEmpJTXOWcbswOI9lyfiWTwXb8TjIiAaACotN7a23DlYwhXhtWk3Nex46qIak-_K6egcC0qS6XMUYa2j9a" 
-                  />
+    
+                <div className="carousel-item flex-shrink-0 w-[80vw] md:w-[400px] h-[300px] md:h-[450px] relative rounded-2xl overflow-hidden group/item">
+                  <img className="w-full h-full object-cover transition-transform duration-700 group-hover/item:scale-110" alt="Fridge magnets detail" src={imgGaleria6} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <span className="text-white font-label-md">Buttons personalizados</span>
+                  </div>
                 </div>
+    
+                <div className="carousel-item flex-shrink-0 w-[80vw] md:w-[400px] h-[300px] md:h-[450px] relative rounded-2xl overflow-hidden group/item">
+                  <img className="w-full h-full object-cover transition-transform duration-700 group-hover/item:scale-110" alt="Buttons on backpack" src={imgGaleria7} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <span className="text-white font-label-md">Itens decorativos</span>
+                  </div>
+                </div>
+    
+                <div className="carousel-item flex-shrink-0 w-[80vw] md:w-[400px] h-[300px] md:h-[450px] relative rounded-2xl overflow-hidden group/item">
+                  <img className="w-full h-full object-cover transition-transform duration-700 group-hover/item:scale-110" alt="Wedding invitation detail" src={imgGaleria8} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <span className="text-white font-label-md">Itens decorativos</span>
+                  </div>
+                </div>
+    
+                <div className="carousel-item flex-shrink-0 w-[80vw] md:w-[400px] h-[300px] md:h-[450px] relative rounded-2xl overflow-hidden group/item">
+                  <img className="w-full h-full object-cover transition-transform duration-700 group-hover/item:scale-110" alt="Cityscape keychain" src={imgGaleria9} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <span className="text-white font-label-md">Embalagens personalizadas</span>
+                  </div>
+                </div>
+
+                <div className="carousel-item flex-shrink-0 w-[80vw] md:w-[400px] h-[300px] md:h-[450px] relative rounded-2xl overflow-hidden group/item">
+                  <img className="w-full h-full object-cover transition-transform duration-700 group-hover/item:scale-110" alt="Cityscape keychain" src={imgGaleria10} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <span className="text-white font-label-md">Impressões com sua marca</span>
+                  </div>
+                </div>
+
               </div>
-              
-              <div className="w-full md:col-span-2 rounded-2xl overflow-hidden h-[200px] md:h-full">
-                <img 
-                  className="w-full h-full object-cover" 
-                  alt="Wedding invitation detail" 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmx99FsxZ3cYLA_VV046SZ_ZXAO81xkwLg9qX36toQ7pdWTmwt9QbFicM0FwyTHPXogdB0DreTxSCyml_1iDTM65kJei5xkmEqwtUezY0UZDHBSenwVGv5xckbJTk5GnhUm5p9jOZze1dfyiPp3po9ZYE41HEhFR1gDtehuTZgiEXttK5dj9FNq0mHUhS7jX1_7vJKSbY4RX_5S5CrT9XYObMw8067s5BWrwCt_pqCH6hLXA0iPiZ65yZHsYBsNfNDe-QaIfrpwF-U" 
-                />
-              </div>
-              
-              <div className="rounded-2xl overflow-hidden h-[150px] md:h-full">
-                <img 
-                  className="w-full h-full object-cover" 
-                  alt="Cityscape keychain" 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUrS85W7AiE1PwPwImbLYK_GmQQAq5T1ji2qb1c3-nf2zEOZesZUr8ZYAXU_-DlOMewCmlccyrBkAPPxf06rBSGXpExaU-m3Ha_QzNIn0-qKgfuRUrJsvdxQhWgmx0pIHR01dErfR3XO85qzPQUYgjmS_FRxNVYecp8nWN5mK8GVl5qDDqEou2h5PLz6OadHUy94e-2knXc2rwIYPM6btf7PqOh8XskMbBzttba3s_ttFgL7JHc6E6y-MabYOz9NnpMMVgAO8tETlu" 
-                />
+    
+              {/* Pontinhos Gerados Dinamicamente pelo React */}
+              <div className="flex justify-center gap-2 mt-6">
+                {[...Array(itemsCount)].map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => scrollToIndex(i)}
+                    className={`rounded-full transition-all duration-300 ${
+                      activeIndex === i 
+                        ? 'bg-primary w-2.5 h-2.5' 
+                        : 'bg-outline-variant w-2 h-2'
+                    }`}
+                  />
+                ))}
               </div>
             </div>
           </div>
         </section>
+
+        
 
         {/* CTA Section */}
         <section className="py-8 md:py-xl">
@@ -230,7 +335,7 @@ function App() {
                 <div class="flex flex-col gap-2 text-on-primary">
                   <div class="flex items-center justify-center md:justify-start gap-2">
                     <span class="material-symbols-outlined text-base">mail</span>
-                    <span class="font-body-md">contato@mlstudio.com.br</span>
+                    <span class="font-body-md">marialeticiaglira@gmail.com</span>
                   </div>
                   <div class="flex items-center justify-center md:justify-start gap-2">
                     <span class="material-symbols-outlined text-base">call</span>
