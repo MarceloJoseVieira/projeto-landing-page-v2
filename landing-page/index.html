@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GiftyCreative | Presentes que Contam Histórias</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Work+Sans:wght@400;500&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#3d494a",
+                    "surface": "#f7fafb",
+                    "outline-variant": "#bcc9ca",
+                    "on-surface": "#181c1d",
+                    "error": "#ba1a1a",
+                    "primary-container": "#1cb0b8",
+                    "on-tertiary-fixed-variant": "#594400",
+                    "tertiary-fixed-dim": "#eec145",
+                    "surface-bright": "#f7fafb",
+                    "on-primary-container": "#003d40",
+                    "surface-dim": "#d7dadb",
+                    "secondary": "#a43b2c",
+                    "surface-container-highest": "#e0e3e4",
+                    "background": "#f7fafb",
+                    "surface-container-low": "#f1f4f5",
+                    "surface-tint": "#00696e",
+                    "primary-fixed": "#79f5fd",
+                    "on-error-container": "#93000a",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#59d8e0",
+                    "inverse-surface": "#2d3132",
+                    "on-primary-fixed-variant": "#004f53",
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#fd7d68",
+                    "inverse-on-surface": "#eef1f2",
+                    "surface-variant": "#e0e3e4",
+                    "tertiary-container": "#c39a1e",
+                    "outline": "#6c797a",
+                    "secondary-fixed": "#ffdad4",
+                    "secondary-fixed-dim": "#ffb4a7",
+                    "tertiary-fixed": "#ffdf93",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#453400",
+                    "on-secondary-fixed": "#400200",
+                    "on-tertiary-fixed": "#241a00",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed-variant": "#842417",
+                    "on-secondary-container": "#71160b",
+                    "on-primary-fixed": "#002022",
+                    "surface-container": "#ebeeef",
+                    "tertiary": "#765b00",
+                    "on-background": "#181c1d",
+                    "primary": "#00696e",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#59d8e0",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#e6e9ea"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "48px",
+                    "margin-desktop": "40px",
+                    "base": "8px",
+                    "gutter": "24px",
+                    "sm": "12px",
+                    "margin-mobile": "16px",
+                    "xs": "4px",
+                    "xl": "80px",
+                    "md": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "button": ["Plus Jakarta Sans"],
+                    "body-md": ["Work Sans"],
+                    "display-lg-mobile": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Work Sans"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "button": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+          display: inline-block;
+          vertical-align: middle;
+      }
+      .card-shadow {
+          box-shadow: 0px 4px 12px rgba(0, 105, 110, 0.08);
+      }
+      .squishy-hover:hover {
+          transform: scale(1.02) translateY(2px);
+      }
+      .glass-effect {
+          background: rgba(255, 255, 255, 0.7);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

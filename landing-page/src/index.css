@@ -1,0 +1,4 @@
+/* Resetting index.css to avoid conflicts with Tailwind CSS */
+body {
+  margin: 0;
+}
