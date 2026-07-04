@@ -173,7 +173,7 @@ function App() {
                 />
               </div>
               <div className="p-6 md:p-md text-center">
-                <h3 className="font-headline-md text-headline-md text-on-surface">Buttons</h3>
+                <h3 className="font-headline-md text-headline-md text-on-surface">Bottons</h3>
                 <p className="text-on-surface-variant text-base md:font-body-md">Estilo e atitude</p>
               </div>
             </div>
@@ -259,7 +259,7 @@ function App() {
                 <div className="carousel-item flex-shrink-0 w-[80vw] md:w-[400px] h-[300px] md:h-[450px] relative rounded-2xl overflow-hidden group/item">
                   <img className="w-full h-full object-cover transition-transform duration-700 group-hover/item:scale-110" alt="Fridge magnets detail" src={imgGaleria6} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <span className="text-white font-label-md">Buttons personalizados</span>
+                    <span className="text-white font-label-md">Bottons personalizados</span>
                   </div>
                 </div>
     
